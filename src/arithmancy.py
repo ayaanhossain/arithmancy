@@ -52,18 +52,21 @@ class arithmancy(object):
     def _divine_doc_kwd(self, val):
         return self.doc_kwd[val]
 
-    def divine_character(self, name):
-        name    = name.upper().translate(self.trans)
-        charset = set('123456789')
-        val     = sum(imap(int, (char for char in name if char in charset)))
+    def _divin_reduction(self, val):
         while val >= 10:
             val = sum(imap(int, iter(str(val))))
+        return val
+
+    def divine_character(self, name):
+        name     = name.upper().translate(self.trans)
+        charset  = set('123456789')
+        val      = _divin_reduction(self, val=sum(imap(int, (char for char in name if char in charset))))        
         doc, kwd = self._divine_doc_kwd(val=val)
         return self.character(val=val, doc=doc, kwd=kwd)
 
 def main():
     arithmancer = arithmancy(trans=arithmancy.aggrippan)
-    print arithmancer.divine_character('Ayaan Hossain')
+    print arithmancer.divine_character('Harry Potter')
 
 if __name__ == '__main__':
     main()
